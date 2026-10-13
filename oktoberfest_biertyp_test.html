@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcher Biertyp bist du? | Oktoberfest</title>
+<style>
+:root{--navy:#142b3b;--blue:#244e62;--cream:#fff8e9;--gold:#e5ad43;--red:#a63d32;--ink:#202a30;--muted:#65717a;--card:#fffdf8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:34px 20px 30px;text-align:center;border-bottom:8px solid var(--gold)}
+.kicker{text-transform:uppercase;letter-spacing:.16em;font-size:.75rem;color:#f4d28a;font-weight:700}
+h1{font-family:Georgia,serif;font-size:clamp(2rem,6vw,3.6rem);line-height:1.05;margin:10px 0}
+header p{margin:10px auto 0;max-width:620px;color:#e6edf0}
+.wrap{width:min(900px,calc(100% - 28px));margin:24px auto 50px}
+.intro{background:#f4e6c8;border-left:5px solid var(--gold);padding:15px 18px;border-radius:8px;margin-bottom:22px}
+.progressline{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem;margin-bottom:8px}
+.track{height:7px;background:#e5dcc9;border-radius:9px;overflow:hidden;margin-bottom:22px}
+.fill{height:100%;background:var(--red);width:0%;transition:width .2s}
+.question{background:var(--card);border:1px solid #e9dfce;border-radius:14px;padding:22px;margin:16px 0;box-shadow:0 3px 12px #142b3b0b}
+.question h2{font-size:1.12rem;margin:0 0 4px;color:var(--navy)}
+.translation{color:var(--muted);margin:0 0 15px;font-size:.94rem}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.option{position:relative}
+.option input{position:absolute;opacity:0;pointer-events:none}
+.option label{display:flex;align-items:flex-start;gap:10px;height:100%;padding:12px;border:1px solid #d8d1c3;border-radius:10px;cursor:pointer;background:#fff;transition:.15s}
+.option label:hover{border-color:var(--blue);background:#f5f9fa}
+.option input:checked+label{border:2px solid var(--red);background:#fff3e7;padding:11px}
+.letter{flex:0 0 27px;height:27px;border-radius:50%;background:#e9e1d2;display:grid;place-items:center;font-weight:700;color:var(--navy);font-size:.85rem}
+.option input:checked+label .letter{background:var(--red);color:#fff}
+.opttext{font-size:.95rem}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}
+button{font-size:1rem;font-weight:700;border:0;border-radius:9px;padding:13px 18px;cursor:pointer}
+.primary{background:var(--red);color:white}
+.secondary{background:#e8dfcf;color:var(--navy)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.note{font-size:.88rem;color:var(--muted)}
+#result{display:none;background:#fffdf8;border:2px solid var(--gold);border-radius:16px;padding:clamp(20px,5vw,34px);margin-top:26px}
+.result-kicker{color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.13em;font-size:.78rem}
+.result-title{font-family:Georgia,serif;color:var(--navy);font-size:clamp(2rem,5vw,3rem);margin:5px 0}
+.result-sub{font-weight:700;font-size:1.12rem;color:var(--blue)}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.result-box{background:#f5eddd;border-radius:10px;padding:15px}
+.result-box h3{margin:0 0 6px;color:var(--navy);font-size:1rem}
+#result p{margin-top:8px}
+footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:26px}
+@media(max-width:600px){.options,.result-grid{grid-template-columns:1fr}.question{padding:17px}.option label{padding:11px}}
+@media print{header{background:white;color:black;border-bottom:3px solid #999}header p,.kicker{color:black}.wrap{width:100%}.actions{display:none}.question{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Oktoberfest · Deutschland</div>
+  <h1>Welcher Biertyp bist du?</h1>
+  <p>¿Qué tipo de cerveza alemana te representa? Responde cinco preguntas y descubre tu resultado.</p>
+</header>
+<main class="wrap">
+  <div class="intro"><strong>Cómo participar:</strong> Lee cada pregunta y elige la respuesta que más se parezca a ti. Puedes leer las opciones en alemán y español. Al terminar, pulsa <em>Descubrir mi resultado</em>.</div>
+  <div class="progressline"><span id="progressText">0 de 5 preguntas respondidas</span><span>Test de personalidad lúdico</span></div>
+  <div class="track"><div class="fill" id="progress"></div></div>
+  <form id="quiz">
+    <section class="question" data-q="0">
+      <h2>1. Wie verbringst du am liebsten dein Wochenende?</h2><p class="translation">¿Cómo prefieres pasar el fin de semana?</p>
+      <div class="options">
+        <div class="option"><input id="q0a" type="radio" name="q0" value="koelsch"><label for="q0a"><span class="letter">A</span><span class="opttext">Mit Freunden feiern und neue Leute kennenlernen.<br><span class="note">Salir con amigos y conocer gente nueva.</span></span></label></div>
+        <div class="option"><input id="q0b" type="radio" name="q0" value="helles"><label for="q0b"><span class="letter">B</span><span class="opttext">In Ruhe entspannen und neue Energie tanken.<br><span class="note">Descansar tranquilamente y recuperar energía.</span></span></label></div>
+        <div class="option"><input id="q0c" type="radio" name="q0" value="weizen"><label for="q0c"><span class="letter">C</span><span class="opttext">Etwas Neues ausprobieren und Abenteuer erleben.<br><span class="note">Probar algo nuevo y vivir aventuras.</span></span></label></div>
+        <div class="option"><input id="q0d" type="radio" name="q0" value="maerzen"><label for="q0d"><span class="letter">D</span><span class="opttext">Ein traditionelles Fest besuchen.<br><span class="note">Asistir a una celebración tradicional.</span></span></label></div>
+      </div>
+    </section>
+    <section class="question" data-q="1">
+      <h2>2. Wie würden dich deine Freunde beschreiben?</h2><p class="translation">¿Cómo te describirían tus amigos?</p>
+      <div class="options">
+        <div class="option"><input id="q1a" type="radio" name="q1" value="pils"><label for="q1a"><span class="letter">A</span><span class="opttext">Direkt und unabhängig.<br><span class="note">Directo/a e independiente.</span></span></label></div>
+        <div class="option"><input id="q1b" type="radio" name="q1" value="dunkel"><label for="q1b"><span class="letter">B</span><span class="opttext">Ruhig und nachdenklich.<br><span class="note">Tranquilo/a y reflexivo/a.</span></span></label></div>
+        <div class="option"><input id="q1c" type="radio" name="q1" value="rauchbier"><label for="q1c"><span class="letter">C</span><span class="opttext">Originell und unkonventionell.<br><span class="note">Original y poco convencional.</span></span></label></div>
+        <div class="option"><input id="q1d" type="radio" name="q1" value="bock"><label for="q1d"><span class="letter">D</span><span class="opttext">Ehrgeizig und entschlossen.<br><span class="note">Ambicioso/a y decidido/a.</span></span></label></div>
+      </div>
+    </section>
+    <section class="question" data-q="2">
+      <h2>3. Welche Atmosphäre magst du am liebsten?</h2><p class="translation">¿Qué ambiente te gusta más?</p>
+      <div class="options">
+        <div class="option"><input id="q2a" type="radio" name="q2" value="koelsch"><label for="q2a"><span class="letter">A</span><span class="opttext">Lebendig, gesellig und voller Gespräche.<br><span class="note">Animado, social y lleno de conversaciones.</span></span></label></div>
+        <div class="option"><input id="q2b" type="radio" name="q2" value="dunkel"><label for="q2b"><span class="letter">B</span><span class="opttext">Gemütlich, ruhig und entspannt.<br><span class="note">Acogedor, tranquilo y relajado.</span></span></label></div>
+        <div class="option"><input id="q2c" type="radio" name="q2" value="berliner"><label for="q2c"><span class="letter">C</span><span class="opttext">Ungewöhnlich, überraschend und kreativ.<br><span class="note">Inusual, sorprendente y creativo.</span></span></label></div>
+        <div class="option"><input id="q2d" type="radio" name="q2" value="maerzen"><label for="q2d"><span class="letter">D</span><span class="opttext">Traditionell, festlich und voller Geschichte.<br><span class="note">Tradicional, festivo y lleno de historia.</span></span></label></div>
+      </div>
+    </section>
+    <section class="question" data-q="3">
+      <h2>4. Wie reagierst du auf eine schwierige Situation?</h2><p class="translation">¿Cómo reaccionas ante una situación difícil?</p>
+      <div class="options">
+        <div class="option"><input id="q3a" type="radio" name="q3" value="weizen"><label for="q3a"><span class="letter">A</span><span class="opttext">Ich probiere verschiedene Lösungen aus.<br><span class="note">Pruebo distintas soluciones.</span></span></label></div>
+        <div class="option"><input id="q3b" type="radio" name="q3" value="helles"><label for="q3b"><span class="letter">B</span><span class="opttext">Ich bleibe ruhig und suche das Gleichgewicht.<br><span class="note">Mantengo la calma y busco el equilibrio.</span></span></label></div>
+        <div class="option"><input id="q3c" type="radio" name="q3" value="bock"><label for="q3c"><span class="letter">C</span><span class="opttext">Ich setze mir ein Ziel und handle entschlossen.<br><span class="note">Me fijo una meta y actúo con decisión.</span></span></label></div>
+        <div class="option"><input id="q3d" type="radio" name="q3" value="rauchbier"><label for="q3d"><span class="letter">D</span><span class="opttext">Ich suche eine ungewöhnliche Lösung.<br><span class="note">Busco una solución poco convencional.</span></span></label></div>
+      </div>
+    </section>
+    <section class="question" data-q="4">
+      <h2>5. Was ist dir im Leben besonders wichtig?</h2><p class="translation">¿Qué es especialmente importante para ti en la vida?</p>
+      <div class="options">
+        <div class="option"><input id="q4a" type="radio" name="q4" value="pils"><label for="q4a"><span class="letter">A</span><span class="opttext">Ehrlichkeit und klare Entscheidungen.<br><span class="note">La honestidad y las decisiones claras.</span></span></label></div>
+        <div class="option"><input id="q4b" type="radio" name="q4" value="koelsch"><label for="q4b"><span class="letter">B</span><span class="opttext">Freundschaft und Gemeinschaft.<br><span class="note">La amistad y la comunidad.</span></span></label></div>
+        <div class="option"><input id="q4c" type="radio" name="q4" value="berliner"><label for="q4c"><span class="letter">C</span><span class="opttext">Freiheit und neue Erfahrungen.<br><span class="note">La libertad y las nuevas experiencias.</span></span></label></div>
+        <div class="option"><input id="q4d" type="radio" name="q4" value="weizen"><label for="q4d"><span class="letter">D</span><span class="opttext">Kreativität und persönliche Entwicklung.<br><span class="note">La creatividad y el crecimiento personal.</span></span></label></div>
+      </div>
+    </section>
+    <div class="actions"><button class="primary" type="submit" id="submit" disabled>Descubrir mi resultado</button><button class="secondary" type="reset">Volver a empezar</button></div>
+  </form>
+  <section id="result" aria-live="polite">
+    <div class="result-kicker">Dein Ergebnis · Tu resultado</div>
+    <h2 class="result-title" id="beerName"></h2>
+    <div class="result-sub" id="beerType"></div>
+    <p id="personality"></p>
+    <div class="result-grid">
+      <div class="result-box"><h3>¿Por qué eres esta cerveza?</h3><p id="reason"></p></div>
+      <div class="result-box"><h3>Conoce el estilo</h3><p id="facts"></p></div>
+    </div>
+    <p class="note">Este resultado es una asociación lúdica entre personalidad y estilos cerveceros; no es un test psicológico.</p>
+    <div class="actions"><button class="primary" type="button" onclick="window.print()">Imprimir resultado</button><button class="secondary" type="button" id="again">Hacer el test otra vez</button></div>
+  </section>
+  <footer>Oktoberfest universitario · Descubre la diversidad de la cerveza alemana</footer>
+</main>
+<script>
+const beers={
+ koelsch:{name:"Kölsch",type:"La persona sociable",personality:"Eres abierto/a, comunicativo/a y disfrutas reuniendo a las personas. Te sientes cómodo/a en ambientes animados y sabes adaptarte a distintos grupos.",reason:"Tus respuestas destacan la amistad, la conversación y el gusto por compartir con otras personas.",facts:"Especialidad de Colonia. Es una cerveza clara, ligera y refrescante."},
+ helles:{name:"Helles",type:"La persona equilibrada",personality:"Eres tranquilo/a, equilibrado/a y valoras la armonía. Antes de reaccionar, buscas mantener la calma y encontrar una solución sensata.",reason:"Tus respuestas muestran que valoras la tranquilidad, la estabilidad y el equilibrio.",facts:"Cerveza bávara dorada, suave y con un perfil maltoso equilibrado."},
+ weizen:{name:"Weizenbier",type:"La persona creativa",personality:"Eres curioso/a, creativo/a y te gusta probar ideas nuevas. Aportas energía y una perspectiva fresca a los planes y problemas.",reason:"Tus respuestas apuntan a la creatividad, la experimentación y el deseo de descubrir cosas nuevas.",facts:"Cerveza de trigo conocida por sus aromas afrutados y especiados, que pueden recordar al banano y al clavo."},
+ maerzen:{name:"Märzen",type:"La persona tradicional",personality:"Valoras las tradiciones, los encuentros especiales y las experiencias compartidas. Te gusta que las cosas tengan historia y significado.",reason:"Tus respuestas muestran afinidad por las celebraciones tradicionales y los momentos compartidos.",facts:"Cerveza de color ámbar históricamente vinculada al Oktoberfest; la cerveza servida hoy en Múnich suele ser Festbier."},
+ bock:{name:"Bockbier",type:"La persona decidida",personality:"Eres perseverante, ambicioso/a y te orientas hacia los objetivos. Cuando algo te importa, te comprometes y buscas avanzar.",reason:"Tus respuestas reflejan determinación, ambición y disposición para afrontar retos.",facts:"Familia de cervezas generalmente más intensas y maltosas que muchas lagers ligeras."},
+ pils:{name:"Pils",type:"La persona directa",personality:"Eres independiente, claro/a y valoras la honestidad. Prefieres comunicarte sin rodeos y tomar decisiones con convicción.",reason:"Tus respuestas destacan la independencia, la claridad y la importancia de actuar con decisión.",facts:"Estilo muy popular en Alemania, dorado y seco, con un amargor perceptible del lúpulo."},
+ rauchbier:{name:"Rauchbier",type:"La persona original",personality:"Te gusta seguir tu propio camino y no temes destacar. Buscas perspectivas diferentes y encuentras posibilidades donde otros ven lo habitual.",reason:"Tus respuestas apuntan a la originalidad y a la preferencia por soluciones poco convencionales.",facts:"Especialidad asociada con Bamberg, famosa por los aromas ahumados de su malta."},
+ berliner:{name:"Berliner Weisse",type:"La persona exploradora",personality:"Eres curioso/a, independiente y disfrutas de la variedad. Te gusta cuestionar lo establecido y vivir experiencias diferentes.",reason:"Tus respuestas destacan la libertad, la curiosidad y la apertura a lo inesperado.",facts:"Estilo tradicional de Berlín, de trigo y sabor ácido, conocido por su carácter refrescante."}
+};
+const form=document.getElementById('quiz');
+function updateProgress(){
+ const count=[0,1,2,3,4].filter(i=>form.querySelector(`input[name="q${i}"]:checked`)).length;
+ document.getElementById('progressText').textContent=`${count} de 5 preguntas respondidas`;
+ document.getElementById('progress').style.width=(count/5*100)+'%';
+ document.getElementById('submit').disabled=count!==5;
+}
+form.addEventListener('change',updateProgress);
+form.addEventListener('submit',e=>{
+ e.preventDefault();
+ const scores={koelsch:0,helles:0,weizen:0,maerzen:0,bock:0,pils:0,rauchbier:0,berliner:0};
+ [0,1,2,3,4].forEach(i=>{const selected=form.querySelector(`input[name="q${i}"]:checked`);if(selected)scores[selected.value]++});
+ const max=Math.max(...Object.values(scores));
+ const tied=Object.keys(scores).filter(k=>scores[k]===max);
+ const winner=tied[Math.floor(Math.random()*tied.length)];
+ const b=beers[winner];
+ document.getElementById('beerName').textContent=b.name;
+ document.getElementById('beerType').textContent=b.type;
+ document.getElementById('personality').textContent=b.personality;
+ document.getElementById('reason').textContent=b.reason;
+ document.getElementById('facts').textContent=b.facts;
+ document.getElementById('result').style.display='block';
+ document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+});
+form.addEventListener('reset',()=>{setTimeout(()=>{updateProgress();document.getElementById('result').style.display='none'},0)});
+document.getElementById('again').addEventListener('click',()=>{form.reset();window.scrollTo({top:0,behavior:'smooth'})});
+updateProgress();
+</script>
+</body>
+</html>
